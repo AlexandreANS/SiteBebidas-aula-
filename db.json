@@ -1,0 +1,26 @@
+{
+  "bebidas": [
+    { "id": 1, "nome": "Heineken", "categoria": "Cerveja", "volume": "350ml", "preco": "6.50" },
+    { "id": 2, "nome": "Skol", "categoria": "Cerveja", "volume": "350ml", "preco": "4.00" },
+    { "id": 3, "nome": "Coca-Cola", "categoria": "Refrigerante", "volume": "350ml", "preco": "5.00" },
+    { "id": 4, "nome": "Smirnoff Ice", "categoria": "Ice", "volume": "275ml", "preco": "8.00" },
+    { "id": 5, "nome": "Devassa", "categoria": "Cerveja", "volume": "350ml", "preco": "5.50" },
+    { "id": 6, "nome": "Red Bull", "categoria": "Energético", "volume": "250ml", "preco": "12.00" }
+  ],
+  "categorias": [
+    { "id": 1, "nome": "Cerveja", "descricao": "Bebidas fermentadas de cevada", "temperatura": "0°C a 4°C" },
+    { "id": 2, "nome": "Refrigerante", "descricao": "Bebidas gaseificadas não alcoólicas", "temperatura": "2°C a 6°C" },
+    { "id": 3, "nome": "Ice", "descricao": "Bebidas alcoólicas geladas saborizadas", "temperatura": "0°C a 4°C" },
+    { "id": 4, "nome": "Energético", "descricao": "Bebidas com cafeína e taurina", "temperatura": "4°C a 8°C" },
+    { "id": 5, "nome": "Suco", "descricao": "Sucos naturais e nectares", "temperatura": "4°C a 8°C" },
+    { "id": 6, "nome": "Vinho", "descricao": "Vinhos tintos, brancos e rosés", "temperatura": "8°C a 18°C" }
+  ],
+  "fornecedores": [
+    { "id": 1, "nome": "Ambev Distribuidora", "cidade": "São Paulo", "contato": "(11) 9999-0001" },
+    { "id": 2, "nome": "Heineken Brasil", "cidade": "Rio de Janeiro", "contato": "(21) 9999-0002" },
+    { "id": 3, "nome": "PepsiCo", "cidade": "Porto Alegre", "contato": "(51) 9999-0003" },
+    { "id": 4, "nome": "Red Bull Brasil", "cidade": "Curitiba", "contato": "(41) 9999-0004" },
+    { "id": 5, "nome": "Bebidas do Sul", "cidade": "Porto Alegre", "contato": "(51) 9999-0005" },
+    { "id": 6, "nome": "Distribuidora Central", "cidade": "Belo Horizonte", "contato": "(31) 9999-0006" }
+  ]
+}

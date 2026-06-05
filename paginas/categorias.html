@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias - Bebidas DataCenter</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🍺 Bebidas DataCenter</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Início</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="categorias.html" class="active">Categorias</a></li>
+                    <li><a href="fornecedores.html">Fornecedores</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>Lista de Categorias</h2>
+            <a href="catCad.html" class="btn btn-success">+ Nova Categoria</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Temperatura</th>
+                        <th>Ações</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="../js/categorias.js"></script>
+    <script>listar()</script>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+</body>
+
+</html>

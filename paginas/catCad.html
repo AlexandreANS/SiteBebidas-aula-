@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Categoria - Bebidas DataCenter</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>🍺 Bebidas DataCenter</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Início</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="fornecedores.html">Fornecedores</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="categorias.html" class="back-link">← Voltar para lista</a>
+
+        <div class="form-container">
+            <h2>Cadastrar Nova Categoria</h2>
+
+            <form onsubmit="adicionar(); return false;">
+                <div class="form-group">
+                    <label for="nome">Nome da Categoria *</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição *</label>
+                    <input type="text" id="descricao" name="descricao" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="temperatura">Temperatura de Serviço *</label>
+                    <input type="text" id="temperatura" name="temperatura" placeholder="Ex: 0°C a 4°C" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                    <a href="categorias.html" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+        </div>
+    </footer>
+
+    <script src="../js/categorias.js"></script>
+</body>
+
+</html>

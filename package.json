@@ -1,0 +1,8 @@
+{
+  "name": "bebidas-datacenter",
+  "version": "1.0.0",
+  "description": "Loja de Bebidas",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
