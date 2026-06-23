@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fornecedores - Bebidas DataCenter</title>
+    <title>Fornecedores - Adega RSBG</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body>
     <header>
         <div class="container">
-            <h1>🍺 Bebidas DataCenter</h1>
+            <h1>🍺 Adega RSBG</h1>
             <nav>
                 <ul>
                     <li><a href="../index.html">Início</a></li>
@@ -27,6 +27,10 @@
         <div class="page-header">
             <h2>Lista de Fornecedores</h2>
             <a href="fornCad.html" class="btn btn-success">+ Novo Fornecedor</a>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" id="filtro" placeholder="Filtrar por nome ou cidade..." oninput="filtrar()">
         </div>
 
         <div class="table-container">
@@ -45,6 +49,33 @@
             </table>
         </div>
     </main>
+
+    <div id="modalEditar" class="modal-overlay" onclick="if (event.target === this) fecharModal()">
+        <div class="modal-box">
+            <h3>Editar Fornecedor</h3>
+            <form onsubmit="salvarEdicao(); return false;">
+                <div class="form-group">
+                    <label for="edit-nome">Nome do Fornecedor</label>
+                    <input type="text" id="edit-nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-cidade">Cidade</label>
+                    <input type="text" id="edit-cidade" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-contato">Contato</label>
+                    <input type="text" id="edit-contato" required>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script src="../js/fornecedores.js"></script>
     <script>listar()</script>

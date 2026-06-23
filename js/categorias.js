@@ -1,4 +1,5 @@
 let categorias = JSON.parse(localStorage.getItem("categorias"));
+let idEditando = null;
 
 if (categorias === null) {
     categorias = [];
@@ -6,10 +7,14 @@ if (categorias === null) {
 }
 
 function listar() {
+    renderizar(categorias);
+}
+
+function renderizar(lista) {
     let linhas = "";
 
-    for (let i = 0; i < categorias.length; i++) {
-        const cat = categorias[i];
+    for (let i = 0; i < lista.length; i++) {
+        const cat = lista[i];
         linhas += `<tr>
         <td>${cat.id}</td>
         <td>${cat.nome}</td>
@@ -19,7 +24,23 @@ function listar() {
         <td><a href="#" class="link" onclick="remover(${cat.id})">Excluir</a></td>
         </tr>`;
     }
+
+    if (lista.length === 0) {
+        linhas = `<tr><td colspan="6" class="empty-row">Nenhuma categoria encontrada.</td></tr>`;
+    }
+
     document.getElementById("tabela").innerHTML = linhas;
+}
+
+function filtrar() {
+    const termo = document.getElementById("filtro").value.toLowerCase();
+
+    const filtradas = categorias.filter(cat =>
+        cat.nome.toLowerCase().includes(termo) ||
+        cat.descricao.toLowerCase().includes(termo)
+    );
+
+    renderizar(filtradas);
 }
 
 function carregarInicial() {
@@ -51,12 +72,33 @@ function adicionar() {
 
 function editar(id) {
     const cat = categorias.find(c => c.id === id);
+    idEditando = id;
 
-    cat.nome = prompt("Novo nome:", cat.nome);
-    cat.descricao = prompt("Nova descrição:", cat.descricao);
-    cat.temperatura = prompt("Nova temperatura:", cat.temperatura);
+    document.getElementById("edit-nome").value = cat.nome;
+    document.getElementById("edit-descricao").value = cat.descricao;
+    document.getElementById("edit-temperatura").value = cat.temperatura;
+
+    abrirModal();
+}
+
+function salvarEdicao() {
+    const cat = categorias.find(c => c.id === idEditando);
+
+    cat.nome = document.getElementById("edit-nome").value;
+    cat.descricao = document.getElementById("edit-descricao").value;
+    cat.temperatura = document.getElementById("edit-temperatura").value;
 
     salvar();
+    fecharModal();
+}
+
+function abrirModal() {
+    document.getElementById("modalEditar").classList.add("aberto");
+}
+
+function fecharModal() {
+    document.getElementById("modalEditar").classList.remove("aberto");
+    idEditando = null;
 }
 
 function remover(id) {

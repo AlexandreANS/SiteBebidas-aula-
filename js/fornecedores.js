@@ -1,4 +1,5 @@
 let fornecedores = JSON.parse(localStorage.getItem("fornecedores"));
+let idEditando = null;
 
 if (fornecedores === null) {
     fornecedores = [];
@@ -6,10 +7,14 @@ if (fornecedores === null) {
 }
 
 function listar() {
+    renderizar(fornecedores);
+}
+
+function renderizar(lista) {
     let linhas = "";
 
-    for (let i = 0; i < fornecedores.length; i++) {
-        const forn = fornecedores[i];
+    for (let i = 0; i < lista.length; i++) {
+        const forn = lista[i];
         linhas += `<tr>
         <td>${forn.id}</td>
         <td>${forn.nome}</td>
@@ -19,7 +24,23 @@ function listar() {
         <td><a href="#" class="link" onclick="remover(${forn.id})">Excluir</a></td>
         </tr>`;
     }
+
+    if (lista.length === 0) {
+        linhas = `<tr><td colspan="6" class="empty-row">Nenhum fornecedor encontrado.</td></tr>`;
+    }
+
     document.getElementById("tabela").innerHTML = linhas;
+}
+
+function filtrar() {
+    const termo = document.getElementById("filtro").value.toLowerCase();
+
+    const filtrados = fornecedores.filter(forn =>
+        forn.nome.toLowerCase().includes(termo) ||
+        forn.cidade.toLowerCase().includes(termo)
+    );
+
+    renderizar(filtrados);
 }
 
 function carregarInicial() {
@@ -51,12 +72,33 @@ function adicionar() {
 
 function editar(id) {
     const forn = fornecedores.find(f => f.id === id);
+    idEditando = id;
 
-    forn.nome = prompt("Novo nome:", forn.nome);
-    forn.cidade = prompt("Nova cidade:", forn.cidade);
-    forn.contato = prompt("Novo contato:", forn.contato);
+    document.getElementById("edit-nome").value = forn.nome;
+    document.getElementById("edit-cidade").value = forn.cidade;
+    document.getElementById("edit-contato").value = forn.contato;
+
+    abrirModal();
+}
+
+function salvarEdicao() {
+    const forn = fornecedores.find(f => f.id === idEditando);
+
+    forn.nome = document.getElementById("edit-nome").value;
+    forn.cidade = document.getElementById("edit-cidade").value;
+    forn.contato = document.getElementById("edit-contato").value;
 
     salvar();
+    fecharModal();
+}
+
+function abrirModal() {
+    document.getElementById("modalEditar").classList.add("aberto");
+}
+
+function fecharModal() {
+    document.getElementById("modalEditar").classList.remove("aberto");
+    idEditando = null;
 }
 
 function remover(id) {

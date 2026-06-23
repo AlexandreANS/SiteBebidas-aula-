@@ -1,11 +1,11 @@
 {
   "bebidas": [
-    { "id": 1, "nome": "Heineken", "categoria": "Cerveja", "volume": "350ml", "preco": "6.50" },
-    { "id": 2, "nome": "Skol", "categoria": "Cerveja", "volume": "350ml", "preco": "4.00" },
-    { "id": 3, "nome": "Coca-Cola", "categoria": "Refrigerante", "volume": "350ml", "preco": "5.00" },
-    { "id": 4, "nome": "Smirnoff Ice", "categoria": "Ice", "volume": "275ml", "preco": "8.00" },
-    { "id": 5, "nome": "Devassa", "categoria": "Cerveja", "volume": "350ml", "preco": "5.50" },
-    { "id": 6, "nome": "Red Bull", "categoria": "Energético", "volume": "250ml", "preco": "12.00" }
+    { "id": 1, "nome": "Heineken", "categoria": "Cerveja", "volume": "350ml", "preco": "6.50", "imagem": "https://placehold.co/200x200?text=Heineken" },
+    { "id": 2, "nome": "Skol", "categoria": "Cerveja", "volume": "350ml", "preco": "4.00", "imagem": "https://placehold.co/200x200?text=Skol" },
+    { "id": 3, "nome": "Coca-Cola", "categoria": "Refrigerante", "volume": "350ml", "preco": "5.00", "imagem": "https://placehold.co/200x200?text=Coca-Cola" },
+    { "id": 4, "nome": "Smirnoff Ice", "categoria": "Ice", "volume": "275ml", "preco": "8.00", "imagem": "https://placehold.co/200x200?text=Smirnoff+Ice" },
+    { "id": 5, "nome": "Devassa", "categoria": "Cerveja", "volume": "350ml", "preco": "5.50", "imagem": "https://placehold.co/200x200?text=Devassa" },
+    { "id": 6, "nome": "Red Bull", "categoria": "Energético", "volume": "250ml", "preco": "12.00", "imagem": "https://placehold.co/200x200?text=Red+Bull" }
   ],
   "categorias": [
     { "id": 1, "nome": "Cerveja", "descricao": "Bebidas fermentadas de cevada", "temperatura": "0°C a 4°C" },
