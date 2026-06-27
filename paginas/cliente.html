@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adega RSBG — Cardápio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #07090f;
+            --surface:   #0d1220;
+            --card:      #111827;
+            --border:    #1a2540;
+            --blue:      #1565c0;
+            --blue-mid:  #1976d2;
+            --blue-lt:   #42a5f5;
+            --blue-pale: #90caf9;
+            --text:      #e8f0fe;
+            --muted:     #7b97c2;
+            --faint:     #2a3a55;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: linear-gradient(160deg, #07090f 0%, #0a1530 50%, #0d1f45 100%);
+            padding: 64px 48px 52px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 80% at 80% 50%, rgba(21,101,192,.18) 0%, transparent 70%),
+                radial-gradient(ellipse 30% 50% at 10% 80%, rgba(66,165,245,.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-line {
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-lt), var(--blue));
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--blue-lt);
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--blue-lt), var(--blue-pale));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        /* ── BARRA DE FILTROS ── */
+        .filtros {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(7,9,15,.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 48px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 340px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 9px 14px 9px 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            transition: border-color .2s;
+        }
+
+        .search-wrap input::placeholder { color: var(--faint); }
+        .search-wrap input:focus {
+            outline: none;
+            border-color: var(--blue-mid);
+        }
+
+        .cats {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cat {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+
+        .btn-cat:hover { border-color: var(--blue-mid); color: var(--blue-pale); }
+        .btn-cat.ativo {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
+
+        /* ── CONTEÚDO ── */
+        .conteudo {
+            padding: 36px 48px 60px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .total-label {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── GRID ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform .25s, border-color .25s, box-shadow .25s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--blue-mid);
+            box-shadow: 0 12px 40px rgba(21,101,192,.2);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            height: 170px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s;
+        }
+
+        .card:hover .card-img-wrap img { transform: scale(1.04); }
+
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--blue-lt);
+            background: rgba(7,9,15,.78);
+            backdrop-filter: blur(6px);
+            padding: 4px 9px;
+            border-radius: 20px;
+            border: 1px solid rgba(66,165,245,.25);
+        }
+
+        .card-body {
+            padding: 16px 18px 18px;
+        }
+
+        .card-nome {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-volume {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .card-preco {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--blue-lt);
+            letter-spacing: -0.5px;
+        }
+
+        .card-preco small {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--muted);
+            margin-right: 2px;
+        }
+
+        /* ── VAZIO ── */
+        .vazio {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--muted);
+        }
+
+        .vazio-icon {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 14px;
+            opacity: .5;
+        }
+
+        .vazio p { font-size: 14px; }
+
+        /* ── DIVIDER ── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 0 48px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--faint);
+        }
+
+        footer strong { color: var(--muted); font-weight: 500; }
+
+        /* ── MODAL OVERLAY ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2,4,10,.78);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .25s, visibility .25s;
+            padding: 20px;
+        }
+
+        .modal-overlay.aberto {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(16px) scale(.97);
+            transition: transform .25s;
+            box-shadow: 0 24px 60px rgba(0,0,0,.55);
+        }
+
+        .modal-overlay.aberto .modal-box {
+            transform: translateY(0) scale(1);
+        }
+
+        /* ── MODAL CHECKOUT ── */
+        .modal-head {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .modal-head img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(7,9,15,.7);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+        }
+
+        .modal-close:hover { background: rgba(21,101,192,.55); border-color: var(--blue-mid); }
+
+        .modal-body { padding: 22px 24px 26px; }
+
+        .modal-badge-cat {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--blue-lt);
+            background: rgba(21,101,192,.14);
+            border: 1px solid rgba(66,165,245,.25);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+
+        .qtd-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+        }
+
+        .qtd-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .qtd-control { display: flex; align-items: center; gap: 14px; }
+
+        .qtd-btn {
+            width: 28px; height: 28px; border-radius: 8px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--blue-lt); font-size: 16px; line-height: 1; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .qtd-btn:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+        .qtd-valor { font-size: 15px; font-weight: 600; min-width: 18px; text-align: center; }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-label {
+            font-size: 11px; font-weight: 600; letter-spacing: 1px;
+            text-transform: uppercase; color: var(--muted);
+            margin-bottom: 6px; display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            transition: border-color .2s;
+        }
+        .form-input::placeholder { color: var(--faint); }
+        .form-input:focus { outline: none; border-color: var(--blue-mid); }
+        .form-input.erro { border-color: #e53935; }
+
+        .pagamento-opcoes { display: flex; gap: 10px; }
+        .pagamento-opcao {
+            flex: 1;
+            padding: 12px 10px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--muted);
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .pagamento-opcao .pag-icon { font-size: 19px; display: block; margin-bottom: 6px; }
+        .pagamento-opcao:hover { border-color: var(--blue-mid); color: var(--blue-pale); }
+        .pagamento-opcao.selecionado {
+            background: rgba(21,101,192,.16);
+            border-color: var(--blue);
+            color: var(--blue-pale);
+        }
+        .pagamento-opcao.erro { border-color: #e53935; }
+
+        .form-erro-msg {
+            font-size: 12px;
+            color: #ef5350;
+            margin: -6px 0 14px;
+            display: none;
+        }
+        .form-erro-msg.visivel { display: block; }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-top: 1px solid var(--border);
+            margin-bottom: 18px;
+        }
+        .total-row span:first-child { font-size: 13px; color: var(--muted); font-weight: 500; }
+        .total-row .total-valor { font-size: 22px; font-weight: 700; color: var(--blue-lt); letter-spacing: -0.5px; }
+        .total-row .total-valor small { font-size: 12px; font-weight: 400; color: var(--muted); margin-right: 2px; }
+
+        .btn-finalizar {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity .2s, transform .2s;
+        }
+        .btn-finalizar:hover { opacity: .92; transform: translateY(-1px); }
+        .btn-finalizar:active { transform: translateY(0); }
+
+        /* ── MODAL SUCESSO ── */
+        .modal-sucesso-box { max-width: 360px; text-align: center; }
+
+        .sucesso-icone {
+            width: 68px; height: 68px;
+            margin: 32px auto 6px;
+            border-radius: 50%;
+            background: rgba(76,175,80,.14);
+            border: 1px solid rgba(76,175,80,.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+        }
+
+        .sucesso-titulo { font-size: 19px; font-weight: 700; color: var(--text); margin: 16px 0 6px; }
+        .sucesso-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; padding: 0 26px; line-height: 1.5; }
+
+        .resumo-pedido {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 0 24px 22px;
+            padding: 14px 16px;
+            text-align: left;
+        }
+        .resumo-linha {
+            display: flex; justify-content: space-between; gap: 12px;
+            font-size: 12px; padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .resumo-linha:last-child { border-bottom: none; }
+        .resumo-linha span:first-child { color: var(--muted); flex-shrink: 0; }
+        .resumo-linha span:last-child { color: var(--text); font-weight: 500; text-align: right; }
+
+        .btn-continuar {
+            width: calc(100% - 48px);
+            margin: 0 24px 24px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--blue-pale);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .btn-continuar:hover { border-color: var(--blue-mid); background: rgba(21,101,192,.08); }
+
+        /* ── RESPONSIVO ── */
+        @media (max-width: 640px) {
+            .hero { padding: 40px 24px 36px; }
+            .filtros { padding: 12px 20px; }
+            .search-wrap { max-width: 100%; }
+            .conteudo { padding: 24px 20px 48px; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+            .divider { margin: 0 20px; }
+            footer { padding: 18px 20px; flex-direction: column; gap: 4px; text-align: center; }
+
+            .modal-body { padding: 18px 18px 20px; }
+            .resumo-pedido, .btn-continuar { margin-left: 14px; margin-right: 14px; }
+            .btn-continuar { width: calc(100% - 28px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-line"></div>
+        <p class="hero-eyebrow">Cardápio Digital</p>
+        <h1>Bebidas <span>Adega RSBG</span></h1>
+        <p class="hero-sub">Explore nosso catálogo completo de bebidas</p>
+    </section>
+
+    <!-- FILTROS -->
+    <div class="filtros">
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="filtro" placeholder="Buscar bebida..." oninput="filtrar()">
+        </div>
+        <div class="cats" id="botoes-cat"></div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div class="conteudo">
+        <div class="info-bar">
+            <span class="total-label" id="total-label"></span>
+        </div>
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <footer>
+        <span>© 2026 Adega RSBG</span>
+    
+    </footer>
+
+    <!-- MODAL DE CHECKOUT -->
+    <div class="modal-overlay" id="modal-checkout" onclick="if(event.target===this) fecharModalCheckout()">
+        <div class="modal-box">
+            <div class="modal-head">
+                <img id="modal-img" src="" alt="" onerror="this.src='https://placehold.co/420x150/0d1220/42a5f5?text=🍺'">
+                <button class="modal-close" onclick="fecharModalCheckout()">✕</button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-badge-cat" id="modal-categoria"></span>
+                <div class="modal-title" id="modal-nome"></div>
+                <div class="modal-sub" id="modal-volume"></div>
+
+                <div class="qtd-row">
+                    <span class="qtd-label">Quantidade</span>
+                    <div class="qtd-control">
+                        <button class="qtd-btn" onclick="alterarQuantidade(-1)">−</button>
+                        <span class="qtd-valor" id="modal-qtd">1</span>
+                        <button class="qtd-btn" onclick="alterarQuantidade(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="input-nome-cliente">Nome completo</label>
+                    <input type="text" id="input-nome-cliente" class="form-input" placeholder="Digite seu nome" oninput="this.classList.remove('erro')">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="input-endereco">Endereço de entrega</label>
+                    <input type="text" id="input-endereco" class="form-input" placeholder="Rua, número, bairro" oninput="this.classList.remove('erro')">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Forma de pagamento</label>
+                    <div class="pagamento-opcoes">
+                        <div class="pagamento-opcao" data-tipo="cartao" onclick="selecionarPagamento('cartao')">
+                            <span class="pag-icon">💳</span>Cartão
+                        </div>
+                        <div class="pagamento-opcao" data-tipo="dinheiro" onclick="selecionarPagamento('dinheiro')">
+                            <span class="pag-icon">💵</span>Dinheiro / Pix
+                        </div>
+                    </div>
+                </div>
+
+                <p class="form-erro-msg" id="form-erro-msg">Preencha nome, endereço e forma de pagamento para continuar.</p>
+
+                <div class="total-row">
+                    <span>Total</span>
+                    <span class="total-valor"><small>R$</small><span id="modal-total">0,00</span></span>
+                </div>
+
+                <button class="btn-finalizar" onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE COMPRA FINALIZADA -->
+    <div class="modal-overlay" id="modal-sucesso" onclick="if(event.target===this) fecharModalSucesso()">
+        <div class="modal-box modal-sucesso-box">
+            <div class="sucesso-icone">✅</div>
+            <div class="sucesso-titulo">Compra finalizada!</div>
+            <p class="sucesso-sub">Recebemos seu pedido. Em breve entraremos em contato para confirmar a entrega.</p>
+            <div class="resumo-pedido">
+                <div class="resumo-linha"><span>Pedido</span><span id="resumo-produto"></span></div>
+                <div class="resumo-linha"><span>Pagamento</span><span id="resumo-pagamento"></span></div>
+                <div class="resumo-linha"><span>Cliente</span><span id="resumo-nome"></span></div>
+                <div class="resumo-linha"><span>Endereço</span><span id="resumo-endereco"></span></div>
+                <div class="resumo-linha"><span>Total</span><span id="resumo-total"></span></div>
+            </div>
+            <button class="btn-continuar" onclick="fecharModalSucesso()">Continuar comprando</button>
+        </div>
+    </div>
+
+    <script>
+        let bebidas = JSON.parse(localStorage.getItem("bebidas")) || [];
+        let categoriaAtiva = "Todas";
+
+        function renderizarCategorias() {
+            const cats = ["Todas", ...new Set(bebidas.map(b => b.categoria))];
+            document.getElementById("botoes-cat").innerHTML = cats.map(cat =>
+                `<button class="btn-cat ${cat === categoriaAtiva ? 'ativo' : ''}" onclick="filtrarCat('${cat}')">${cat}</button>`
+            ).join("");
+        }
+
+        function filtrarCat(cat) {
+            categoriaAtiva = cat;
+            renderizarCategorias();
+            filtrar();
+        }
+
+        function filtrar() {
+            const termo = document.getElementById("filtro").value.toLowerCase();
+            let lista = bebidas;
+
+            if (categoriaAtiva !== "Todas")
+                lista = lista.filter(b => b.categoria === categoriaAtiva);
+
+            if (termo)
+                lista = lista.filter(b =>
+                    b.nome.toLowerCase().includes(termo) ||
+                    b.categoria.toLowerCase().includes(termo)
+                );
+
+            renderizar(lista);
+        }
+
+        function renderizar(lista) {
+            const grid = document.getElementById("grid");
+            const label = document.getElementById("total-label");
+
+            label.textContent = lista.length === 1
+                ? "1 produto encontrado"
+                : `${lista.length} produtos encontrados`;
+
+            if (lista.length === 0) {
+                grid.innerHTML = `<div class="vazio"><span class="vazio-icon">🍺</span><p>Nenhuma bebida encontrada.</p></div>`;
+                return;
+            }
+
+            grid.innerHTML = lista.map(beb => {
+                const img = beb.imagem || "https://placehold.co/230x170/0d1220/42a5f5?text=🍺";
+                const preco = parseFloat(beb.preco).toFixed(2).replace(".", ",");
+                return `
+                <div class="card" onclick="abrirModalProduto(${beb.id})">
+                    <div class="card-img-wrap">
+                        <img src="${img}" alt="${beb.nome}" onerror="this.src='https://placehold.co/230x170/0d1220/42a5f5?text=🍺'">
+                        <span class="card-badge">${beb.categoria}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-nome">${beb.nome}</div>
+                        <div class="card-footer">
+                            <span class="card-volume">${beb.volume}</span>
+                            <span class="card-preco"><small>R$</small>${preco}</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        renderizarCategorias();
+        filtrar();
+
+        /* ══════════════ MODAL DE COMPRA ══════════════ */
+        let produtoSelecionado = null;
+        let quantidadeAtual = 1;
+        let pagamentoSelecionado = null;
+
+        function abrirModalProduto(id) {
+            const beb = bebidas.find(b => b.id === id);
+            if (!beb) return;
+
+            produtoSelecionado = beb;
+            quantidadeAtual = 1;
+            pagamentoSelecionado = null;
+
+            const img = beb.imagem || "https://placehold.co/420x150/0d1220/42a5f5?text=🍺";
+            document.getElementById("modal-img").src = img;
+            document.getElementById("modal-categoria").textContent = beb.categoria;
+            document.getElementById("modal-nome").textContent = beb.nome;
+            document.getElementById("modal-volume").textContent = beb.volume;
+            document.getElementById("modal-qtd").textContent = "1";
+
+            document.getElementById("input-nome-cliente").value = "";
+            document.getElementById("input-endereco").value = "";
+            document.getElementById("input-nome-cliente").classList.remove("erro");
+            document.getElementById("input-endereco").classList.remove("erro");
+            document.getElementById("form-erro-msg").classList.remove("visivel");
+            document.querySelectorAll(".pagamento-opcao").forEach(el => el.classList.remove("selecionado", "erro"));
+
+            atualizarTotal();
+
+            document.getElementById("modal-checkout").classList.add("aberto");
+            document.body.style.overflow = "hidden";
+        }
+
+        function fecharModalCheckout() {
+            document.getElementById("modal-checkout").classList.remove("aberto");
+            document.body.style.overflow = "";
+        }
+
+        function alterarQuantidade(delta) {
+            quantidadeAtual = Math.max(1, Math.min(20, quantidadeAtual + delta));
+            document.getElementById("modal-qtd").textContent = quantidadeAtual;
+            atualizarTotal();
+        }
+
+        function atualizarTotal() {
+            if (!produtoSelecionado) return;
+            const total = parseFloat(produtoSelecionado.preco) * quantidadeAtual;
+            document.getElementById("modal-total").textContent = total.toFixed(2).replace(".", ",");
+        }
+
+        function selecionarPagamento(tipo) {
+            pagamentoSelecionado = tipo;
+            document.querySelectorAll(".pagamento-opcao").forEach(el => {
+                el.classList.remove("erro");
+                el.classList.toggle("selecionado", el.dataset.tipo === tipo);
+            });
+        }
+
+        function finalizarCompra() {
+            const inputNome = document.getElementById("input-nome-cliente");
+            const inputEndereco = document.getElementById("input-endereco");
+            const nome = inputNome.value.trim();
+            const endereco = inputEndereco.value.trim();
+            let valido = true;
+
+            inputNome.classList.toggle("erro", !nome);
+            inputEndereco.classList.toggle("erro", !endereco);
+            if (!nome || !endereco) valido = false;
+
+            if (!pagamentoSelecionado) {
+                document.querySelectorAll(".pagamento-opcao").forEach(el => el.classList.add("erro"));
+                valido = false;
+            }
+
+            document.getElementById("form-erro-msg").classList.toggle("visivel", !valido);
+            if (!valido) return;
+
+            const totalTexto = document.getElementById("modal-total").textContent;
+            document.getElementById("resumo-produto").textContent = `${quantidadeAtual}x ${produtoSelecionado.nome}`;
+            document.getElementById("resumo-pagamento").textContent = pagamentoSelecionado === "cartao" ? "Cartão" : "Dinheiro / Pix";
+            document.getElementById("resumo-nome").textContent = nome;
+            document.getElementById("resumo-endereco").textContent = endereco;
+            document.getElementById("resumo-total").textContent = `R$ ${totalTexto}`;
+
+            fecharModalCheckout();
+            document.getElementById("modal-sucesso").classList.add("aberto");
+            document.body.style.overflow = "hidden";
+        }
+
+        function fecharModalSucesso() {
+            document.getElementById("modal-sucesso").classList.remove("aberto");
+            document.body.style.overflow = "";
+        }
+    </script>
+</body>
+</html>
