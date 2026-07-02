@@ -67,7 +67,8 @@ function adicionar() {
 
     const novo = { id: Date.now(), nome, cidade, contato };
     fornecedores.push(novo);
-    salvar();
+    localStorage.setItem("fornecedores", JSON.stringify(fornecedores));
+    window.location.href = "fornecedores.html";
 }
 
 function editar(id) {

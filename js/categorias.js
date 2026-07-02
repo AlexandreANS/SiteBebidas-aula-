@@ -67,7 +67,8 @@ function adicionar() {
 
     const nova = { id: Date.now(), nome, descricao, temperatura };
     categorias.push(nova);
-    salvar();
+    localStorage.setItem("categorias", JSON.stringify(categorias));
+    window.location.href = "categorias.html";
 }
 
 function editar(id) {

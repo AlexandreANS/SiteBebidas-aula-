@@ -73,7 +73,8 @@ function adicionar() {
 
     const nova = { id: Date.now(), nome, categoria, volume, preco, imagem };
     bebidas.push(nova);
-    salvar();
+    localStorage.setItem("bebidas", JSON.stringify(bebidas));
+    window.location.href = "bebidas.html";
 }
 
 function editar(id) {
